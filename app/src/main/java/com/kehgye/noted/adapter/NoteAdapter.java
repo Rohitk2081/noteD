@@ -15,13 +15,13 @@ import com.kehgye.noted.model.Note;
 
 public class NoteAdapter extends ListAdapter<Note, NoteAdapter.NoteViewHolder> {
 
-    private OnItemClickListener listener;
+    private OnItemClickListener clickListener;
+    private OnItemLongClickListener longClickListener;
 
     public NoteAdapter() {
         super(DIFF_CALLBACK);
     }
 
-    // Callback to detect differences in the note list
     private static final DiffUtil.ItemCallback<Note> DIFF_CALLBACK =
             new DiffUtil.ItemCallback<Note>() {
                 @Override
@@ -51,7 +51,6 @@ public class NoteAdapter extends ListAdapter<Note, NoteAdapter.NoteViewHolder> {
         holder.textViewContent.setText(currentNote.getContent());
     }
 
-    // ViewHolder class for RecyclerView items
     public class NoteViewHolder extends RecyclerView.ViewHolder {
         private final TextView textViewTitle;
         private final TextView textViewContent;
@@ -63,20 +62,37 @@ public class NoteAdapter extends ListAdapter<Note, NoteAdapter.NoteViewHolder> {
 
             itemView.setOnClickListener(v -> {
                 int position = getAdapterPosition();
-                if (listener != null && position != RecyclerView.NO_POSITION) {
-                    listener.onItemClick(getItem(position));
+                if (clickListener != null && position != RecyclerView.NO_POSITION) {
+                    clickListener.onItemClick(getItem(position));
                 }
+            });
+
+            itemView.setOnLongClickListener(v -> {
+                int position = getAdapterPosition();
+                if (longClickListener != null && position != RecyclerView.NO_POSITION) {
+                    longClickListener.onItemLongClick(getItem(position));
+                    return true;
+                }
+                return false;
             });
         }
     }
 
-    // Define the interface for click handling
+    // Click interface
     public interface OnItemClickListener {
         void onItemClick(Note note);
     }
 
-    // Setter for the click listener
     public void setOnItemClickListener(OnItemClickListener listener) {
-        this.listener = listener;
+        this.clickListener = listener;
+    }
+
+    // Long Click interface
+    public interface OnItemLongClickListener {
+        void onItemLongClick(Note note);
+    }
+
+    public void setOnItemLongClickListener(OnItemLongClickListener listener) {
+        this.longClickListener = listener;
     }
 }

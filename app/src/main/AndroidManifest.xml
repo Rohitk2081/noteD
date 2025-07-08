@@ -13,6 +13,9 @@
         android:theme="@style/Theme.NoteD"
         tools:targetApi="31">
         <activity
+            android:name=".TrashActivity"
+            android:exported="false" />
+        <activity
             android:name=".AddEditNoteActivity"
             android:exported="false" />
         <activity

@@ -16,12 +16,14 @@ public class NoteRepository {
 
     private final NoteDao noteDao;
     private final LiveData<List<Note>> allNotes;
+    private final LiveData<List<Note>> trashedNotes;  // ✅ declare this
     private final ExecutorService executorService;
 
     public NoteRepository(Application application) {
         NoteDatabase database = NoteDatabase.getInstance(application);
         noteDao = database.noteDao();
         allNotes = noteDao.getAllNotes();
+        trashedNotes = noteDao.getTrashedNotes();  // ✅ initialize this
         executorService = Executors.newFixedThreadPool(2); // For background DB work
     }
 
@@ -45,7 +47,22 @@ public class NoteRepository {
         return allNotes;
     }
 
+    public LiveData<List<Note>> getTrashedNotes() {
+        return trashedNotes; // ✅ now this works
+    }
+
     public LiveData<Note> getNoteById(int id) {
         return noteDao.getNoteById(id);
+    }
+
+    // ✅ Trash a note by setting isTrashed = true
+    public void trashNote(Note note) {
+        note.setTrashed(true);
+        executorService.execute(() -> noteDao.update(note));
+    }
+
+    // 🔁 Optional: If implemented in DAO
+    public void trashNoteById(int id) {
+        executorService.execute(() -> noteDao.trashNoteById(id));
     }
 }

@@ -15,16 +15,26 @@ public class NoteViewModel extends AndroidViewModel {
 
     private final NoteRepository repository;
     private final LiveData<List<Note>> allNotes;
+    private final LiveData<List<Note>> trashedNotes;
 
     public NoteViewModel(@NonNull Application application) {
         super(application);
         repository = new NoteRepository(application);
         allNotes = repository.getAllNotes();
+        trashedNotes = repository.getTrashedNotes(); // ✅ Fixed here
     }
 
     // Expose LiveData to UI
     public LiveData<List<Note>> getAllNotes() {
         return allNotes;
+    }
+
+    public LiveData<List<Note>> getTrashedNotes() {
+        return trashedNotes;
+    }
+
+    public LiveData<Note> getNoteById(int id) {
+        return repository.getNoteById(id);
     }
 
     // UI calls these methods
@@ -44,7 +54,7 @@ public class NoteViewModel extends AndroidViewModel {
         repository.deleteTrashedNotes();
     }
 
-    public LiveData<Note> getNoteById(int id) {
-        return repository.getNoteById(id);
+    public void trashNote(Note note) {
+        repository.trashNote(note);
     }
 }

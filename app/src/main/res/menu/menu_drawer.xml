@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_notes"
+        android:title="All Notes"
+        android:icon="@drawable/ic_note" />
+
+    <item
+        android:id="@+id/nav_pinned"
+        android:title="Pinned"
+        android:icon="@drawable/ic_note" />
+
+    <item
+        android:id="@+id/nav_trash"
+        android:title="Trash"
+        android:icon="@drawable/ic_delete" />
+
+    <item
+        android:id="@+id/nav_archive"
+        android:title="Archive"
+        android:icon="@drawable/ic_note" />
+
+    <item
+        android:id="@+id/nav_settings"
+        android:title="Settings"
+        android:icon="@drawable/ic_note" />
+
+    <item
+        android:id="@+id/nav_help"
+        android:title="Help and Feedback"
+        android:icon="@drawable/ic_note" />
+
+</menu>
