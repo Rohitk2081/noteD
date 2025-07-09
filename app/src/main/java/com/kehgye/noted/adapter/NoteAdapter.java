@@ -13,6 +13,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.kehgye.noted.R;
 import com.kehgye.noted.model.Note;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 public class NoteAdapter extends ListAdapter<Note, NoteAdapter.NoteViewHolder> {
 
     private OnItemClickListener clickListener;
@@ -49,16 +53,22 @@ public class NoteAdapter extends ListAdapter<Note, NoteAdapter.NoteViewHolder> {
         Note currentNote = getItem(position);
         holder.textViewTitle.setText(currentNote.getTitle());
         holder.textViewContent.setText(currentNote.getContent());
+        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy, hh:mm a", Locale.getDefault());
+        String editedTime = "Edited: " + sdf.format(new Date(currentNote.getLastEdited()));
+
+        holder.textViewLastEdited.setText(editedTime);
     }
 
     public class NoteViewHolder extends RecyclerView.ViewHolder {
         private final TextView textViewTitle;
         private final TextView textViewContent;
+        private final TextView textViewLastEdited;
 
         public NoteViewHolder(View itemView) {
             super(itemView);
             textViewTitle = itemView.findViewById(R.id.textView_title);
             textViewContent = itemView.findViewById(R.id.textView_content);
+            textViewLastEdited = itemView.findViewById(R.id.textView_last_edited);
 
             itemView.setOnClickListener(v -> {
                 int position = getAdapterPosition();

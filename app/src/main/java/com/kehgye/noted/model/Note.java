@@ -2,15 +2,19 @@ package com.kehgye.noted.model;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import androidx.room.Index;
 import androidx.room.Ignore;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "notes", indices = {
-        @Index(value = {"timestamp"}),
-        @Index(value = {"isPinned"}),
-        @Index(value = {"isTrashed"})
-})
+@Entity(
+        tableName = "notes",
+        indices = {
+                @Index(value = {"createdAt"}),
+                @Index(value = {"lastEdited"}),
+                @Index(value = {"isPinned"}),
+                @Index(value = {"isTrashed"})
+        }
+)
 public class Note {
 
     @PrimaryKey(autoGenerate = true)
@@ -22,8 +26,8 @@ public class Note {
     @ColumnInfo(name = "content")
     private String content;
 
-    @ColumnInfo(name = "timestamp")
-    private long timestamp;
+    @ColumnInfo(name = "createdAt")
+    private long createdAt;
 
     @ColumnInfo(name = "lastEdited")
     private long lastEdited;
@@ -34,25 +38,26 @@ public class Note {
     @ColumnInfo(name = "isTrashed")
     private boolean isTrashed;
 
-    // ✅ Constructor used by Room (do NOT annotate this one)
-    public Note(String title, String content, boolean isPinned, boolean isTrashed, long timestamp) {
+    // ✅ Constructor used by Room
+    public Note(String title, String content, boolean isPinned, boolean isTrashed, long createdAt, long lastEdited) {
         this.title = title;
         this.content = content;
         this.isPinned = isPinned;
         this.isTrashed = isTrashed;
-        this.timestamp = timestamp;
+        this.createdAt = createdAt;
+        this.lastEdited = lastEdited;
     }
 
-    // ❌ Constructor ignored by Room (used internally only)
+    // ✅ Convenience constructor (ignored by Room)
     @Ignore
-    public Note(String title, String content, long timestamp, long lastEdited,
-                boolean isPinned, boolean isTrashed) {
+    public Note(String title, String content) {
+        long now = System.currentTimeMillis();
         this.title = title;
         this.content = content;
-        this.timestamp = timestamp;
-        this.lastEdited = lastEdited;
-        this.isPinned = isPinned;
-        this.isTrashed = isTrashed;
+        this.createdAt = now;
+        this.lastEdited = now;
+        this.isPinned = false;
+        this.isTrashed = false;
     }
 
     // ----- GETTERS & SETTERS -----
@@ -66,8 +71,8 @@ public class Note {
     public String getContent() { return content; }
     public void setContent(String content) { this.content = content; }
 
-    public long getTimestamp() { return timestamp; }
-    public void setTimestamp(long timestamp) { this.timestamp = timestamp; }
+    public long getCreatedAt() { return createdAt; }
+    public void setCreatedAt(long createdAt) { this.createdAt = createdAt; }
 
     public long getLastEdited() { return lastEdited; }
     public void setLastEdited(long lastEdited) { this.lastEdited = lastEdited; }

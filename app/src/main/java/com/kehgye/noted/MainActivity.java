@@ -98,6 +98,7 @@ public class MainActivity extends AppCompatActivity {
             intent.putExtra("note_id", note.getId());
             intent.putExtra("note_title", note.getTitle());
             intent.putExtra("note_content", note.getContent());
+            intent.putExtra("note_created_at", note.getCreatedAt());
             startActivity(intent);
         });
 
