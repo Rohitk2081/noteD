@@ -57,4 +57,7 @@ public class NoteViewModel extends AndroidViewModel {
     public void trashNote(Note note) {
         repository.trashNote(note);
     }
+    public LiveData<List<Note>> getPinnedNotes() {
+        return repository.getPinnedNotes();
+    }
 }

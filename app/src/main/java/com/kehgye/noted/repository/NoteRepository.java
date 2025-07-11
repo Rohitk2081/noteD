@@ -65,4 +65,8 @@ public class NoteRepository {
     public void trashNoteById(int id) {
         executorService.execute(() -> noteDao.trashNoteById(id));
     }
+
+    public LiveData<List<Note>> getPinnedNotes() {
+        return noteDao.getPinnedNotes();
+    }
 }

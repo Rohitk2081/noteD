@@ -41,4 +41,7 @@ public interface NoteDao {
     // ✅ Fetch trashed notes sorted by last edited time
     @Query("SELECT * FROM notes WHERE isTrashed = 1 ORDER BY lastEdited DESC")
     LiveData<List<Note>> getTrashedNotes();
+
+    @Query("SELECT * FROM notes WHERE isPinned = 1 AND isTrashed = 0 ORDER BY lastEdited DESC")
+    LiveData<List<Note>> getPinnedNotes();
 }
